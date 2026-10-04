@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta name="robots" content="noindex, nofollow">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Grocery</title>
+  <meta name="description" content="Austin's grocery list. All data stays on this phone.">
+  <meta name="theme-color" content="#10241c">
+  <meta name="color-scheme" content="dark">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Grocery">
+  <meta name="format-detection" content="telephone=no">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app">
+    <header class="top">
+      <button id="back" class="back" type="button" hidden>Back</button>
+      <h1 id="title">Home</h1>
+    </header>
+    <main id="main" class="main"></main>
+    <nav class="tabbar" aria-label="Sections">
+      <button type="button" class="tab" data-tab="home" aria-label="Home">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11.5 12 4l8 7.5V20a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1z"/></svg>
+        <span>Home</span>
+      </button>
+      <button type="button" class="tab" data-tab="grocery" aria-label="Grocery list">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6h12M8 12h12M8 18h12"/><path d="M4 6h.01M4 12h.01M4 18h.01"/></svg>
+        <span>List</span>
+        <span id="g-badge" class="badge" hidden>0</span>
+      </button>
+      <button type="button" class="tab" data-tab="recipes" aria-label="Recipes">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4.5h9.5A2.5 2.5 0 0 1 18 7v13H8.5A2.5 2.5 0 0 0 6 17.5z"/><path d="M6 4.5A2.5 2.5 0 0 0 3.5 7V18"/><path d="M9 8h6M9 12h6"/></svg>
+        <span>Recipes</span>
+      </button>
+    </nav>
+  </div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="logic.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
