@@ -1,7 +1,7 @@
 /* Offline shell. Only same-origin GET requests are cached. */
 'use strict';
 
-var CACHE = 'grocery-v2';
+var CACHE = 'grocery-v3';
 var SHELL = [
   './',
   './index.html',
@@ -19,7 +19,7 @@ var SHELL = [
 self.addEventListener('install', function (event) {
   event.waitUntil(
     caches.open(CACHE)
-      .then(function (cache) { return cache.addAll(SHELL); })
+      .then(function (cache) { return cache.addAll(SHELL.map(function (u) { return new Request(u, { cache: 'reload' }); })); })
       .then(function () { return self.skipWaiting(); })
   );
 });
@@ -41,22 +41,17 @@ self.addEventListener('fetch', function (event) {
   if (req.method !== 'GET' || new URL(req.url).origin !== self.location.origin) return;
 
   var isPage = req.mode === 'navigate';
+  var key = isPage ? './index.html' : req;
+  // Network first so updates show up right away; saved copy only when offline.
   event.respondWith((async function () {
     var cache = await caches.open(CACHE);
-    var cached = await cache.match(isPage ? './index.html' : req, { ignoreSearch: true });
-    var refresh = fetch(req)
-      .then(function (res) {
-        if (res && res.ok && res.type === 'basic') {
-          cache.put(isPage ? './index.html' : req, res.clone());
-        }
-        return res;
-      })
-      .catch(function () { return null; });
-    if (cached) {
-      event.waitUntil(refresh);
-      return cached;
+    try {
+      var res = await fetch(req, { cache: 'no-store' });
+      if (res && res.ok && res.type === 'basic') cache.put(key, res.clone());
+      return res;
+    } catch (e) {
+      var cached = await cache.match(key, { ignoreSearch: true });
+      return cached || new Response('Offline', { status: 503, headers: { 'Content-Type': 'text/plain' } });
     }
-    var fresh = await refresh;
-    return fresh || new Response('Offline', { status: 503, headers: { 'Content-Type': 'text/plain' } });
   })());
 });

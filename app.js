@@ -715,6 +715,18 @@
       tab.addEventListener('click', function () { go(tab.getAttribute('data-tab')); });
     });
     $('back').addEventListener('click', leaveEditor);
+    // Coming back to the app (after the phone's Home button) shows the full meal list again.
+    var backToList = function () {
+      if (document.visibilityState === 'hidden' || view !== 'home') return;
+      if (!selectedId && !query) return;
+      query = '';
+      selectedId = null;
+      pinSelection = false;
+      render();
+      window.scrollTo(0, 0);
+    };
+    document.addEventListener('visibilitychange', backToList);
+    window.addEventListener('pageshow', backToList);
   }
 
   function boot() {
