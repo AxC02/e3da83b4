@@ -701,7 +701,13 @@
       editor = null;
     }
     view = tab;
+    if (tab === 'home') {
+      query = '';
+      selectedId = null;
+      pinSelection = false;
+    }
     render();
+    window.scrollTo(0, 0);
   }
 
   function bind() {

@@ -1,7 +1,7 @@
 /* Offline shell. Only same-origin GET requests are cached. */
 'use strict';
 
-var CACHE = 'grocery-v1';
+var CACHE = 'grocery-v2';
 var SHELL = [
   './',
   './index.html',
